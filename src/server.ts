@@ -1,7 +1,4 @@
-/* eslint-disable */
-const express = require("express");
-
-const app = express();
+import { app } from "./app";
 
 const port = 8080;
 
