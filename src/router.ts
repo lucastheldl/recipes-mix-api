@@ -10,6 +10,7 @@ router.get("/recipes/id:", recipesController.getByUserId);
 router.get("/recipes/all", recipesController.getAll);
 
 router.post("/register", userController.createUser);
+router.post("/login", userController.loginUser);
 
 router.get("/", (req, res) => {
   return res.json({ message: "ok" });

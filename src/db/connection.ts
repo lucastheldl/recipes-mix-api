@@ -3,7 +3,7 @@ import "dotenv/config";
 
 const connection = mysql.createPool({
   host: "localhost",
-  database: "test",
+  database: "recipesMix",
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
 });
