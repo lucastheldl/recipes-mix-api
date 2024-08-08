@@ -8,7 +8,7 @@ const create = async (
   created_at: string,
   userId: string
 ) => {
-  const recipe = await connection.execute(
+  const [recipe] = await connection.execute(
     "INSERT INTO `recipes` (`title`, `information`,`ingredients`,`instructions`,`created_at`,`user_id`) VALUES (?, ?, ?, ?, ?, ?)",
     [title, information, ingredients, instructions, created_at, userId]
   );
@@ -17,7 +17,7 @@ const create = async (
 };
 
 const getByUserId = async (id: string) => {
-  const recipe = await connection.execute(
+  const [recipe] = await connection.execute(
     "SELECT user_id FROM `recipes` WHERE `user_id` = ?",
     [id]
   );
@@ -25,18 +25,15 @@ const getByUserId = async (id: string) => {
   return recipe;
 };
 const getAll = async () => {
-  const recipes = await connection.execute("SELECT * FROM `recipes`");
+  const [recipes] = await connection.execute("SELECT * FROM `recipes`");
 
   return recipes;
 };
 
 const deleteById = async (id: string) => {
-  const recipe = await connection.execute(
-    "SELECT id FROM `recipes` WHERE `id` = ?",
-    [id]
-  );
+  await connection.execute("SELECT id FROM `recipes` WHERE `id` = ?", [id]);
 
-  return recipe;
+  return;
 };
 
 export { create, getByUserId, deleteById, getAll };
