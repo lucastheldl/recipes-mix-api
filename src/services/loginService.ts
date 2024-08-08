@@ -1,3 +1,4 @@
+import { compare } from "bcryptjs";
 import { getByEmail } from "../models/userModel";
 
 export class LoginService {
@@ -18,11 +19,14 @@ export class LoginService {
       console.log("Usuário não existe!");
       throw new Error("Usuário não existe!");
     }
-    console.log(user);
-    /* if (user.password != this.password) {
+    const doesPasswordMatches = await compare(
+      this.password,
+      user.password_hash
+    );
+    if (!doesPasswordMatches) {
       console.log("Senha incorreta!");
       throw new Error("Senha incorreta!");
-    } */
+    }
 
     return user;
   }

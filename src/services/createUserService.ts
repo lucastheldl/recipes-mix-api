@@ -18,7 +18,6 @@ export class CreateUserService {
     const user = await getByEmail(this.email);
 
     if (user) {
-      console.log(user);
       console.log("Email indisponivel");
       throw new Error("Email indisponivel");
     }
