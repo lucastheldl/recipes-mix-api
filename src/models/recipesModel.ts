@@ -1,18 +1,30 @@
 import { connection } from "../db/connection";
 
+interface recipeId {
+  id: number;
+}
+
 const create = async (
   title: string,
-  information: string,
+  description: string,
   ingredients: string[],
   instructions: string[],
-  created_at: string,
   userId: string
 ) => {
-  const [recipe] = await connection.execute(
-    "INSERT INTO `recipes` (`title`, `information`,`ingredients`,`instructions`,`created_at`,`user_id`) VALUES (?, ?, ?, ?, ?, ?)",
-    [title, information, ingredients, instructions, created_at, userId]
-  );
+  const date = new Date();
+  const created_at = date.getTime();
 
+  const [recipe] = await connection.execute(
+    "INSERT INTO `recipes` (`title`, `description`,`ingredients`,`instructions`,`created_at`,`user_id`) VALUES (?, ?, ?, ?, ?, ?)",
+    [
+      title,
+      description,
+      JSON.stringify(ingredients),
+      JSON.stringify(instructions),
+      created_at,
+      userId,
+    ]
+  );
   return recipe;
 };
 
@@ -31,7 +43,7 @@ const getAll = async () => {
 };
 
 const deleteById = async (id: string) => {
-  await connection.execute("SELECT id FROM `recipes` WHERE `id` = ?", [id]);
+  await connection.execute("DELETE id FROM `recipes` WHERE `id` = ?", [id]);
 
   return;
 };
