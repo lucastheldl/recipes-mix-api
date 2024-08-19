@@ -1,5 +1,6 @@
 import { compare } from "bcryptjs";
 import { getByEmail } from "../models/userModel";
+import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
 
 
 export class LoginService {
@@ -18,7 +19,7 @@ export class LoginService {
     const user = await getByEmail(this.email);
     if (!user) {
       console.log("Usuário não existe!");
-      throw new Error("Usuário não existe!");
+      throw new InvalidCredentialsError();
     }
     const doesPasswordMatches = await compare(
       this.password,
@@ -26,7 +27,7 @@ export class LoginService {
     );
     if (!doesPasswordMatches) {
       console.log("Senha incorreta!");
-      throw new Error("Senha incorreta!");
+      throw new InvalidCredentialsError();
     }
 
     return user;

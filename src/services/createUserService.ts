@@ -1,5 +1,6 @@
 import { genSalt, hash } from "bcryptjs";
 import { getByEmail, create } from "../models/userModel";
+import { InvalidCredentialsError } from "./errors/invalid-credentials-error"
 
 export class CreateUserService {
   private email: string;
@@ -19,7 +20,7 @@ export class CreateUserService {
 
     if (user) {
       console.log("Email indisponivel");
-      throw new Error("Email indisponivel");
+      throw new InvalidCredentialsError();
     }
     const salt = await genSalt(5);
     const password_hash = await hash(this.password, salt);
