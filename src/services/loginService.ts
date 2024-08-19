@@ -1,6 +1,7 @@
 import { compare } from "bcryptjs";
 import { getByEmail } from "../models/userModel";
 
+
 export class LoginService {
   private email: string;
   private password: string;
