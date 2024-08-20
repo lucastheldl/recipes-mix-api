@@ -30,6 +30,8 @@ export class LoginService {
       throw new InvalidCredentialsError();
     }
 
-    return user;
+    const formattedUser = {id:user.id,email:user.email}
+
+    return formattedUser;
   }
 }

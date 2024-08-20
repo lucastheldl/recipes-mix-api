@@ -1,3 +1,4 @@
+import { RowDataPacket } from "mysql2";
 import { connection } from "../db/connection";
 
 interface User {
@@ -16,7 +17,7 @@ const create = async (username:string,email: string, password: string) => {
 };
 
 const getByEmail = async (email: string) => {
-  const [user, buffer] = await connection.execute(
+  const [user, buffer] = await connection.execute<RowDataPacket[]>(
     "SELECT * FROM `users` WHERE `email` = ?",
     [email]
   );
