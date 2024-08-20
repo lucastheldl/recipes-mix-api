@@ -2,7 +2,10 @@ import { Request, Response } from "express";
 import {
   getAll as getAllRecipes,
   create as createRecipe,
+  deleteById,
+  getByUserId
 } from "../models/recipesModel";
+import { ResourceNotFoundError } from "../services/errors/resource-not-found-error";
 
 export const create = async (req: Request, res: Response) => {
   const { title, description, ingredients, instructions, userId } = req.body;
@@ -27,12 +30,26 @@ export const getAll = async (req: Request, res: Response) => {
     return res.status(200).json(recipes);
   } catch (error) {
     res.status(500).json({ message: "Algo deu errado" });
-    throw new Error("Error trying to get recipes");
+    throw new ResourceNotFoundError();
   }
 };
-export const getByUserId = (req: Request, res: Response) => {
-  return res.status(200).json({ message: "ok" });
+export const getRecipeByUserId = async(req: Request, res: Response) => {
+  const {id} = req.params
+  try {
+    const recipes = await getByUserId(id);
+    return res.status(200).json(recipes);
+  } catch (error) {
+    res.status(500).json({ message: "Algo deu errado" });
+    throw new ResourceNotFoundError();
+  }
 };
-export const deleteById = (req: Request, res: Response) => {
-  return res.status(200).json({ message: "ok" });
+export const deleteRecipe = async(req: Request, res: Response) => {
+  const {id} = req.params
+  try {
+    const recipes = await deleteById(id);
+    return res.status(200).json(recipes);
+  } catch (error) {
+    res.status(500).json({ message: "Algo deu errado" });
+    throw new ResourceNotFoundError();
+  }
 };

@@ -30,7 +30,7 @@ const create = async (
 
 const getByUserId = async (id: string) => {
   const [recipe] = await connection.execute(
-    "SELECT user_id FROM `recipes` WHERE `user_id` = ?",
+    "SELECT * FROM `recipes` WHERE `user_id` = ?",
     [id]
   );
 

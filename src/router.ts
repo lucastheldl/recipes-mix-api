@@ -5,8 +5,8 @@ import * as recipesController from "./controllers/recipesController";
 export const router = express.Router();
 
 router.post("/recipes", recipesController.create);
-router.delete("/recipes/id:", recipesController.deleteById);
-router.get("/recipes/id:", recipesController.getByUserId);
+router.delete("/recipes/:id", recipesController.deleteRecipe);
+router.get("/recipes/user/:id", recipesController.getRecipeByUserId);
 router.get("/recipes", recipesController.getAll);
 
 router.post("/register", userController.createUser);

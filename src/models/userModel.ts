@@ -6,10 +6,10 @@ interface User {
   password_hash: string;
 }
 
-const create = async (email: string, password: string) => {
+const create = async (username:string,email: string, password: string) => {
   const [user] = await connection.execute(
-    "INSERT INTO `users` (`email`, `password_hash`) VALUES (?, ?)",
-    [email, password]
+    "INSERT INTO `users` (`username`,`email`, `password_hash`) VALUES (?,?, ?)",
+    [username,email, password]
   );
 
   return user;
