@@ -46,9 +46,10 @@ export const getRecipeByUserId = async(req: Request, res: Response) => {
 export const deleteRecipe = async(req: Request, res: Response) => {
   const {id} = req.params
   try {
-    const recipes = await deleteById(id);
-    return res.status(200).json(recipes);
-  } catch (error) {
+    await deleteById(id);
+    return res.status(200).json({"message":"ok"});
+  } catch (error:any) {
+    console.log(error.message);
     res.status(500).json({ message: "Algo deu errado" });
     throw new ResourceNotFoundError();
   }

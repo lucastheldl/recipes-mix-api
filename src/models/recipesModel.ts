@@ -43,7 +43,7 @@ const getAll = async () => {
 };
 
 const deleteById = async (id: string) => {
-  await connection.execute("DELETE id FROM `recipes` WHERE `id` = ?", [id]);
+  await connection.execute("DELETE FROM `recipes` WHERE `id` = ?", [id]);
 
   return;
 };
