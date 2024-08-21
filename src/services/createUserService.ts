@@ -1,33 +1,38 @@
 import { genSalt, hash } from "bcryptjs";
-import { getByEmail, create } from "../models/userModel";
-import { InvalidCredentialsError } from "./errors/invalid-credentials-error"
+import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
+import { UserModelDto } from "../models/in-memory/user-model-dto";
 
+interface CreateUserServiceRequest {
+  username: string;
+  email: string;
+  password: string;
+}
 export class CreateUserService {
-  private email: string;
-  private username: string;
-  private password: string;
+  constructor(private usersModel: UserModelDto) {}
 
-  constructor(username:string,email: string, password: string) {
-    this.username = username;
-    this.email = email;
-    this.password = password;
-  }
-
-  public async execute() {
+  public async execute({
+    username,
+    email,
+    password,
+  }: CreateUserServiceRequest) {
     //check if the email is already taken
     //hash the password
     //create user
 
-    const user = await getByEmail(this.email);
+    const user = await this.usersModel.getByEmail(email);
 
     if (user) {
       console.log("Email indisponivel");
       throw new InvalidCredentialsError();
     }
     const salt = await genSalt(5);
-    const password_hash = await hash(this.password, salt);
+    const password_hash = await hash(password, salt);
 
-    const createdUser = await create(this.username,this.email, password_hash);
+    const createdUser = await this.usersModel.create({
+      username,
+      email,
+      password_hash,
+    });
 
     return createdUser;
   }
