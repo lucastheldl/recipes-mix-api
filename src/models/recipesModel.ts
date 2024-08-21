@@ -1,8 +1,13 @@
 import { connection } from "../db/connection";
-
-interface recipeId {
-  id: number;
+export interface Recipe {
+  id: string;
+  title: string;
+  description: string;
+  instructions: string[];
+  ingredients: string[];
+  userId: string;
 }
+export type InsertRecipe = Omit<Recipe, "id">;
 
 const create = async (
   title: string,
