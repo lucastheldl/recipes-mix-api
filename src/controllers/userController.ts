@@ -20,8 +20,9 @@ export const createUser = async (req: Request, res: Response) => {
 export const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   try {
-    const userService = new LoginService(email, password);
-    const user = await userService.execute();
+    const userModel = new UserModel();
+    const userService = new LoginService(userModel);
+    const user = await userService.execute({ email, password });
 
     return res.status(200).json(user);
   } catch (error: any) {
