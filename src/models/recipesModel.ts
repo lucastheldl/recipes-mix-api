@@ -32,7 +32,8 @@ export class RecipesModel implements RecipesModelDto {
         userId,
       ]
     );
-    return recipe;
+    const formatedRecipe = recipe as unknown as Recipe;
+    return formatedRecipe;
   }
 
   async getByUserId(id: string) {
