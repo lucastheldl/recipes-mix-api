@@ -17,7 +17,8 @@ export class UserModel implements UserModelDto {
       [data.username, data.email, data.password_hash]
     );
 
-    return user;
+    const formatedUser = user as unknown as User;
+    return formatedUser;
   }
 
   async getByEmail(email: string) {
