@@ -57,6 +57,9 @@ export class RecipesModel implements RecipesModelDto {
   async getByUserId(id: string) {
     return (await recipeMdl.find({ userId: id })) as Recipe[];
   }
+  async getById(id: string) {
+    return (await recipeMdl.findOne({ userId: id })) as Recipe;
+  }
   async deleteById(id: string) {
     return await recipeMdl.deleteOne({ _id: id });
   }
