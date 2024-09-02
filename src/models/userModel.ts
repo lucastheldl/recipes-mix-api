@@ -1,6 +1,5 @@
-import { RowDataPacket } from "mysql2";
-import { connection } from "../db/connection";
 import { UserModelDto } from "./in-memory/user-model-dto";
+import mongoose from "mongoose";
 
 export interface User {
   id: string;
@@ -10,23 +9,33 @@ export interface User {
 }
 export type InsertUser = Omit<User, "id">;
 
+const userSchema = new mongoose.Schema({
+  id: {
+    type: String,
+    required: true,
+  },
+  username: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  password_hash: {
+    type: String,
+    required: true,
+  },
+});
+
+const userMdl = mongoose.model("Users", userSchema);
+
 export class UserModel implements UserModelDto {
   async create(data: InsertUser) {
-    const [user] = await connection.execute(
-      "INSERT INTO `users` (`username`,`email`, `password_hash`) VALUES (?,?, ?)",
-      [data.username, data.email, data.password_hash]
-    );
-
-    const formatedUser = user as unknown as User;
-    return formatedUser;
+    return (await userMdl.create(data)) as User;
   }
 
-  async getByEmail(email: string) {
-    const [user, buffer] = await connection.execute<RowDataPacket[]>(
-      "SELECT * FROM `users` WHERE `email` = ?",
-      [email]
-    );
-    const typedUser = user as User[];
-    return typedUser.length > 0 ? typedUser[0] : null;
+  async getByEmail(id: string) {
+    return (await userMdl.findOne({ id })) as User;
   }
 }

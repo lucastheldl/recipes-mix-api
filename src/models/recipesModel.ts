@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { connection } from "../db/connection";
 import { RecipesModelDto } from "./in-memory/recipes-model-dto";
 export interface Recipe {
   id: string;
@@ -38,7 +37,7 @@ const recipeSchema = new mongoose.Schema({
   },
 });
 
-const recipeMdl = mongoose.model("Transaction", recipeSchema);
+const recipeMdl = mongoose.model("Recipes", recipeSchema);
 export class RecipesModel implements RecipesModelDto {
   /*  async create({
     title,
