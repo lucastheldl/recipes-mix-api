@@ -1,11 +1,15 @@
-import mysql from "mysql2/promise";
 import "dotenv/config";
+import mongoose from "mongoose";
 
-const connection = mysql.createPool({
-  host: process.env.INSTANCE_IP,
-  database: process.env.DB_NAME,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-});
-
-export { connection };
+export async function connectToDb() {
+  try {
+    await mongoose.connect(
+      `mongodb+srv://${process.env.MONGODB_USER}:<${process.env.MONGODB_PASSWORD}>@recipescluster.qx5a1.mongodb.net/?retryWrites=true&w=majority&appName=RecipesCluster`
+    );
+  } catch (error) {
+    if (error) {
+      return console.log(error);
+    }
+    return console.log("conectado ao banco");
+  }
+}
