@@ -18,7 +18,7 @@ export const create = async (req: Request, res: Response) => {
       userId,
     });
     return res.status(202).json(recipe);
-  } catch (error: any) {
+  } catch (error) {
     console.log(error.message);
     res.status(500).json({ message: "Algo deu errado" });
     throw new Error("Error trying to create recipe");

@@ -12,7 +12,6 @@ export type InsertUser = Omit<User, "id">;
 const userSchema = new mongoose.Schema({
   id: {
     type: String,
-    required: true,
   },
   username: {
     type: String,
@@ -35,7 +34,7 @@ export class UserModel implements UserModelDto {
     return (await userMdl.create(data)) as User;
   }
 
-  async getByEmail(id: string) {
-    return (await userMdl.findOne({ id })) as User;
+  async getByEmail(email: string) {
+    return (await userMdl.findOne({ email })) as User;
   }
 }
