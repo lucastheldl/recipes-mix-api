@@ -9,9 +9,13 @@ export const createUser = async (req: Request, res: Response) => {
   try {
     const userModel = new UserModel();
     const createUserService = new CreateUserService(userModel);
-    const user = await createUserService.execute({ username, email, password });
+    const { createdUser, token } = await createUserService.execute({
+      username,
+      email,
+      password,
+    });
 
-    return res.status(200).json(user);
+    return res.status(200).json({ token, createdUser });
   } catch (error) {
     if (error instanceof InvalidCredentialsError) {
       // 400: bad request
@@ -24,9 +28,12 @@ export const loginUser = async (req: Request, res: Response) => {
   try {
     const userModel = new UserModel();
     const userService = new LoginService(userModel);
-    const user = await userService.execute({ email, password });
+    const { formattedUser, token } = await userService.execute({
+      email,
+      password,
+    });
 
-    return res.status(200).json(user);
+    return res.status(200).json({ token, formattedUser });
   } catch (error) {
     if (error instanceof InvalidCredentialsError) {
       // 400: bad request

@@ -16,7 +16,7 @@ describe("Create user route", () => {
       password: "password",
       email: "lucastheldl@gmail.com",
     };
-    const createdUser = await sut.execute(TestUser);
+    const { createdUser } = await sut.execute(TestUser);
 
     expect(createdUser.email).toEqual(expect.any(String));
   });

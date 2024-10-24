@@ -1,6 +1,8 @@
 import { compare } from "bcryptjs";
 import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
 import { UserModelDto } from "../models/in-memory/user-model-dto";
+import jwt from "jsonwebtoken";
+import "dotenv/config";
 
 interface LoginUser {
   email: string;
@@ -23,9 +25,20 @@ export class LoginService {
       console.log("Senha incorreta!");
       throw new InvalidCredentialsError();
     }
+    //generate token
+    const secret = process.env.JWT_SECRET as string;
+    const token = jwt.sign(
+      {
+        sub: user.email,
+      },
+      secret,
+      {
+        expiresIn: "7 days",
+      }
+    );
 
     const formattedUser = { id: user.id, email: user.email };
 
-    return formattedUser;
+    return { token, formattedUser };
   }
 }

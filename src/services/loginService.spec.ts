@@ -22,12 +22,12 @@ describe("Create user route", () => {
       email: "lucastheldl@gmail.com",
     });
 
-    const user = await sut.execute({
+    const { formattedUser } = await sut.execute({
       password: "1234",
       email: "lucastheldl@gmail.com",
     });
 
-    expect(user.id).toEqual(expect.any(String));
+    expect(formattedUser.id).toEqual(expect.any(String));
   });
 
   it("Should not be possible to login with wrong email", async () => {

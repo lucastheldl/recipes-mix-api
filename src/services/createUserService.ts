@@ -1,6 +1,8 @@
 import { genSalt, hash } from "bcryptjs";
 import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
 import { UserModelDto } from "../models/in-memory/user-model-dto";
+import jwt from "jsonwebtoken";
+import "dotenv/config";
 
 interface CreateUserServiceRequest {
   username: string;
@@ -34,6 +36,18 @@ export class CreateUserService {
       password_hash,
     });
 
-    return createdUser;
+    //generate token
+    const secret = process.env.JWT_SECRET as string;
+    const token = jwt.sign(
+      {
+        sub: createdUser.email,
+      },
+      secret,
+      {
+        expiresIn: "7 days",
+      }
+    );
+
+    return { token, createdUser };
   }
 }
